@@ -1,0 +1,61 @@
+<clr-datagrid>
+  <clr-dg-column></clr-dg-column>
+  <clr-dg-column>Id</clr-dg-column>
+  <clr-dg-column>Name</clr-dg-column>
+  <clr-dg-column>Success Rates</clr-dg-column>
+  <clr-dg-column>Created</clr-dg-column>
+  <clr-dg-column>Last Updated</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let job of jobs">
+    <clr-dg-cell>
+      <clr-dropdown>
+        <button class="more-actions-btn btn btn-link btn-sm" clrDropdownTrigger>
+          <cds-icon shape="angle" direction="down"></cds-icon>
+          <cds-icon shape="ellipsis-vertical" size="14"></cds-icon>
+        </button>
+        <clr-dropdown-menu *clrIfOpen>
+          <label class="dropdown-header" aria-hidden="true">Actions</label>
+          <a clrDropdownItem routerLink="/automate/{{ job.id }}"
+            >More Details</a
+          >
+          <a clrDropdownItem (click)="onClickRowDelete(job)">Delete</a>
+        </clr-dropdown-menu>
+      </clr-dropdown>
+      <a routerLink="/automate/{{ job.id }}">Details</a>
+    </clr-dg-cell>
+    <clr-dg-cell>{{ job.id }}</clr-dg-cell>
+    <clr-dg-cell>
+      {{ job.name }}<br />
+      <i>{{ job.description}}</i>
+    </clr-dg-cell>
+    <clr-dg-cell>0/0 0%</clr-dg-cell>
+    <clr-dg-cell>{{ job.created | date:'MMM d, y h:mma' }}</clr-dg-cell>
+    <clr-dg-cell>{{ job.updated | date:'MMM d, y h:mma' }}</clr-dg-cell>
+  </clr-dg-row>
+</clr-datagrid>
+
+<clr-modal [(clrModalOpen)]="showDeleteJobModal" *ngIf="jobToDelete">
+  <h3 class="modal-title">Delete Job</h3>
+  <div class="modal-body">
+    <span
+      >Are you sure you want to delete the job '{{ jobToDelete.name }}' ID:{{
+      jobToDelete.id }}?</span
+    >
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline"
+      (click)="onClickCancelDeleteJob()"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="onClickConfirmDeleteJob()"
+    >
+      Delete
+    </button>
+  </div>
+</clr-modal>

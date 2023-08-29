@@ -1,0 +1,34 @@
+.card-title h3:first-child {
+  margin-top: 0;
+}
+
+h2.job-name {
+  margin-top: 0;
+}
+
+.job-content {
+  clear: both;
+}
+
+.job-runs-timeline {
+  margin-top: 20px;
+  min-width: auto;
+  padding: 0;
+
+  li.clr-timeline-step {
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    margin-top: -2px;
+
+    &.active {
+      background-color: hsl(198, 83%, 94%);
+      border-color: hsl(198, 100%, 32%);
+    }
+  }
+}
+
+.logs {
+  min-height: 50vh;
+  width: 100%;
+}

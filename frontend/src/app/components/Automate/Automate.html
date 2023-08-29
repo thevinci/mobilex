@@ -1,0 +1,6 @@
+<button class="btn btn-primary" (click)="openJobNewModal()">
+  Create New Job
+</button>
+
+<JobNewModal [(show)]="showJobNewModal" (jobCreated)="onJobCreated($event)" />
+<JobsList [refresh]="refreshJobsList" />

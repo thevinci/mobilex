@@ -1,0 +1,27 @@
+{
+  "name": "mobilex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "adb": "adb connect 192.168.1.73:5555",
+    "appium": "appium",
+    "dev": "pnpm run adb && pnpm run postgres && concurrently -n appium,backend,frontend pnpm:appium pnpm:dev:backend pnpm:dev:frontend",
+    "dev:backend": "cd backend && dotnet watch run",
+    "dev:frontend": "cd frontend && pnpm start",
+    "postgres": "sudo service postgresql start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "commander": "^11.0.0",
+    "concurrently": "^8.2.1",
+    "dayjs": "^1.11.9",
+    "dotenv": "^16.3.1",
+    "pg": "^8.11.3",
+    "webdriverio": "^8.15.6"
+  }
+}

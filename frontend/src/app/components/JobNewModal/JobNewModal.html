@@ -1,0 +1,51 @@
+<div [ngStyle]="{ display }">
+  <div class="modal">
+    <div class="modal-dialog" role="dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            class="close"
+            type="button"
+            aria-label="Close"
+            (click)="close()"
+          >
+            <cds-icon shape="close"></cds-icon>
+          </button>
+          <h3 class="modal-title">New job</h3>
+        </div>
+        <div class="modal-body">
+          <form clrForm [formGroup]="form" (ngSubmit)="submit()">
+            <clr-input-container>
+              <label>Name</label>
+              <input
+                clrInput
+                id="name"
+                type="text"
+                name="name"
+                formControlName="name"
+              />
+            </clr-input-container>
+            <clr-textarea-container>
+              <label>Description</label>
+              <textarea
+                clrTextarea
+                id="description"
+                name="description"
+                formControlName="description"
+              ></textarea>
+            </clr-textarea-container>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" (click)="close()">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-primary" (click)="submit()">
+            Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop" aria-hidden="true"></div>
+</div>

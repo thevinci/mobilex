@@ -1,0 +1,126 @@
+<div *ngIf="job">
+  <a routerLink="/automate">&larr; Automate</a>
+
+  <h2 class="job-name">{{ job.name }}</h2>
+
+  <div class="clr-row">
+    <div class="clr-col-lg-3 clr-col-12">
+      <div class="card">
+        <div class="card-header">
+          <button
+            class="execute-btn btn btn-primary"
+            (click)="onClickExecute()"
+          >
+            Execute
+          </button>
+        </div>
+        <div class="card-block">
+          <div class="card-text">
+            <div>Job ID {{ job.id }}</div>
+            <div>{{ job.description }}</div>
+            <div>Created {{ job.created | date:'MMM d, y h:mma' }}</div>
+            <div>Last Updated {{ job.updated | date:'MMM d, y h:mma' }}</div>
+          </div>
+        </div>
+      </div>
+
+      <ul class="job-runs-timeline clr-timeline clr-timeline-vertical">
+        <li
+          class="clr-timeline-step"
+          [class.active]="selectedJobRun && selectedJobRun.id === jobRun.id"
+          *ngFor="let jobRun of jobRuns"
+          (click)="onClickJobRun(jobRun)"
+        >
+          <div class="clr-timeline-step-header">
+            {{ jobRun.created | date:'MMM d, y h:mma' }}
+          </div>
+          <cds-icon
+            role="img"
+            shape="success-standard"
+            aria-label="Success"
+            *ngIf="jobRun.status === 'success'"
+          ></cds-icon>
+          <cds-icon
+            role="img"
+            shape="error-standard"
+            aria-label="Failed"
+            *ngIf="jobRun.status === 'failed'"
+          ></cds-icon>
+          <cds-icon
+            role="img"
+            shape="circle"
+            aria-label="Not started"
+            *ngIf="jobRun.status === 'not-started'"
+          ></cds-icon>
+          <clr-spinner
+            clrMedium
+            aria-label="Running"
+            *ngIf="jobRun.status === 'running'"
+            >Running</clr-spinner
+          >
+          <div class="clr-timeline-step-body">
+            <span class="clr-timeline-step-title">Run ID {{ jobRun.id }}</span>
+            <span class="clr-timeline-step-description" *ngIf="jobRun.duration"
+              >{{ jobRun.duration }}s</span
+            >
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="clr-col-lg-9 clr-col-12">
+      <div class="card" style="min-height: 50vh" *ngIf="selectedJobRun">
+        <div class="card-header">
+          <div class="card-title">
+            <h3>Run ID {{ selectedJobRun.id }}</h3>
+            <div>Status {{ selectedJobRun.status }}</div>
+            <div>Os {{ selectedJobRun.os }}</div>
+            <div *ngIf="selectedJobRun.deviceName">
+              Device {{ selectedJobRun.deviceName }}
+            </div>
+            <div class="job-run-actions">
+              <button
+                class="btn btn-sm btn-danger"
+                *ngIf="selectedJobRun.status === 'running'"
+              >
+                Stop
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-block">
+          <clr-tabs>
+            <clr-tab>
+              <button clrTabLink id="link1">Video</button>
+              <clr-tab-content id="content1" *clrIfActive>
+                <video
+                  class="video"
+                  controls
+                  src="http://localhost:5127/cdn/teams/1/jobs/{{ job.id }}/runs/{{ selectedJobRun.id }}/video.mp4"
+                  style="max-width: 100%; max-height: 60vh"
+                  *ngIf="selectedJobRun.hasVideo"
+                ></video>
+                <p *ngIf="!selectedJobRun.hasVideo">No videos available</p>
+              </clr-tab-content>
+            </clr-tab>
+            <clr-tab>
+              <button clrTabLink>Logs</button>
+              <clr-tab-content *clrIfActive="true">
+                <textarea
+                  class="logs clr-textarea"
+                  style="height: 100%"
+                  readonly
+                  [value]="selectedJobRun.logs"
+                  *ngIf="selectedJobRun.logs"
+                ></textarea>
+                <p *ngIf="!selectedJobRun.logs">No logs yet</p>
+              </clr-tab-content>
+            </clr-tab>
+          </clr-tabs>
+        </div>
+      </div>
+
+      <p *ngIf="!selectedJobRun">No runs yet</p>
+    </div>
+  </div>
+</div>
